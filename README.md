@@ -8,29 +8,28 @@ O projeto implementa o padrão arquitetural **MVC (Model-View-Controller)**, com
 
 ## 👥 Integrantes do Grupo
 
-* **[Nome Completo 1]** — [@usuario-github](https://github.com/usuario-github)
-* **[Nome Completo 2]** — [@usuario-github](https://github.com/usuario-github)
-* **[Nome Completo 3]** — [@usuario-github](https://github.com/usuario-github)
-* **[Nome Completo 4]** — [@usuario-github](https://github.com/usuario-github)
-* **[Nome Completo 5]** — [@usuario-github](https://github.com/usuario-github)
+* **Felipe Duque** — [@usuario-github](https://github.com/usuario-github)
+* **João Victor Cirino** — [@usuario-github](https://github.com/usuario-github)
+* **Emily Camile Valente** — [@usuario-github](https://github.com/usuario-github)
+* **Guilherme Andrade** — [@usuario-github](https://github.com/usuario-github)
 
-**Professor:** Vagner Fonseca[cite: 1]
+**Professor:** Vagner Fonseca
 
 ---
 
 ## 🛠️ Tecnologias e Versões
 
 ### Backend
-* **Java:** [ex.: 17 ou 21]
-* **Spring Boot:** [ex.: 3.3.x] (Spring Web, Spring Data JPA, Bean Validation)[cite: 1, 2, 3]
-* **Banco de Dados:** [ex.: H2 Database (em memória) / PostgreSQL 16 / MySQL 8][cite: 2]
-* **Build Tool:** [ex.: Maven 3.9+ / Gradle]
+* **Java**
+* **Spring Boot** 
+* **Banco de Dados: PostgreSQL** 
+* **Build Tool** 
 
 ### Frontend
-* **Angular:** [ex.: 18.x][cite: 1]
-* **TypeScript:** [ex.: 5.4.x][cite: 2]
-* **UI Framework:** [ex.: Angular Material 18.x][cite: 3]
-* **Node.js / npm:** [ex.: Node 20.x / npm 10.x]
+* **Angular:** 
+* **TypeScript** 
+* **UI Framework** 
+* **Node.js** 
 
 ---
 
