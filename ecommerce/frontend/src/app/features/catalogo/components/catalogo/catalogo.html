@@ -1,0 +1,73 @@
+<section class="pagina">
+  <div class="cabecalho-pagina"><h1>Catálogo</h1></div>
+
+  <form class="filtros" [formGroup]="filtros" role="search">
+    <mat-form-field>
+      <mat-label>Buscar produto</mat-label>
+      <input matInput formControlName="nome" placeholder="Ex.: fone" />
+      <mat-icon matSuffix aria-hidden="true">search</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Categoria</mat-label>
+      <mat-select formControlName="categoriaId">
+        <mat-option [value]="null">Todas</mat-option>
+        @for (c of categorias(); track c.id) {
+          <mat-option [value]="c.id">{{ c.nome }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Ordenar por</mat-label>
+      <mat-select formControlName="sort">
+        <mat-option value="nome,asc">Nome (A-Z)</mat-option>
+        <mat-option value="preco,asc">Menor preço</mat-option>
+        <mat-option value="preco,desc">Maior preço</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+
+  @if (carregando()) {
+    <mat-progress-bar mode="indeterminate" aria-label="Carregando produtos" />
+  }
+
+  @if (!carregando() && produtos().length === 0) {
+    <div class="cartao"><app-estado-vazio mensagem="Nenhum produto encontrado." icone="search_off" /></div>
+  } @else {
+    <div class="grade">
+      @for (p of produtos(); track p.id) {
+        <mat-card appearance="outlined" class="card-produto">
+          <a [routerLink]="[p.id]" class="link-imagem" [attr.aria-label]="'Ver detalhes de ' + p.nome">
+            <img mat-card-image [src]="p.imagemUrl || 'https://picsum.photos/seed/vazio/400/300'" [alt]="p.nome" loading="lazy" />
+          </a>
+          <mat-card-content>
+            <span class="texto-secundario categoria">{{ p.categoriaNome }}</span>
+            <h2 class="nome">{{ p.nome }}</h2>
+            <span class="preco">{{ p.preco | currency }}</span>
+            @if (p.estoque === 0) {
+              <p class="alerta-estoque">Esgotado</p>
+            } @else if (p.estoque <= 3) {
+              <p class="alerta-estoque">Últimas {{ p.estoque }} unidade(s)</p>
+            } @else {
+              <p class="texto-secundario">{{ p.estoque }} em estoque</p>
+            }
+          </mat-card-content>
+          <mat-card-actions>
+            <a mat-button [routerLink]="[p.id]">Detalhes</a>
+            <button mat-flat-button (click)="adicionar(p)" [disabled]="p.estoque === 0">
+              <mat-icon aria-hidden="true">add_shopping_cart</mat-icon> Adicionar
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  }
+
+  <mat-paginator
+    [length]="total()"
+    [pageIndex]="pagina"
+    [pageSize]="tamanho"
+    [pageSizeOptions]="[6, 12, 24]"
+    (page)="mudarPagina($event)"
+    aria-label="Paginação do catálogo"
+  />
+</section>

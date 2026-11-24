@@ -1,0 +1,78 @@
+<section class="pagina">
+  <a mat-button routerLink="/pedidos"><mat-icon aria-hidden="true">arrow_back</mat-icon> Voltar aos pedidos</a>
+
+  @if (carregando()) {
+    <mat-progress-bar mode="indeterminate" aria-label="Carregando pedido" />
+  }
+
+  @if (pedido(); as p) {
+    <div class="cabecalho-pagina">
+      <h1>Pedido #{{ p.id }}</h1>
+      <span class="status status-{{ p.status }}">{{ p.status | statusPedido }}</span>
+    </div>
+
+    <ol class="linha-tempo" aria-label="Andamento do pedido">
+      @for (etapa of etapas; track etapa) {
+        <li [class.feita]="etapaConcluida(etapa)" [attr.aria-current]="p.status === etapa ? 'step' : null">
+          <mat-icon aria-hidden="true">{{ etapaConcluida(etapa) ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+          {{ etapa | statusPedido }}
+        </li>
+      }
+    </ol>
+
+    <div class="grade">
+      <div class="cartao">
+        <h2>Itens</h2>
+        <table mat-table [dataSource]="p.itens" class="tabela">
+          <ng-container matColumnDef="produto">
+            <th mat-header-cell *matHeaderCellDef>Produto</th>
+            <td mat-cell *matCellDef="let i">{{ i.produtoNome }}</td>
+          </ng-container>
+          <ng-container matColumnDef="quantidade">
+            <th mat-header-cell *matHeaderCellDef>Qtd</th>
+            <td mat-cell *matCellDef="let i">{{ i.quantidade }}</td>
+          </ng-container>
+          <ng-container matColumnDef="precoUnitario">
+            <th mat-header-cell *matHeaderCellDef class="esconder-sm">Preço unit. (na compra)</th>
+            <td mat-cell *matCellDef="let i" class="esconder-sm">{{ i.precoUnitario | currency }}</td>
+          </ng-container>
+          <ng-container matColumnDef="subtotal">
+            <th mat-header-cell *matHeaderCellDef>Subtotal</th>
+            <td mat-cell *matCellDef="let i">{{ i.subtotal | currency }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+          <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+        </table>
+      </div>
+
+      <aside class="cartao">
+        <h2>Resumo</h2>
+        <dl class="dados">
+          <dt>Cliente</dt><dd>{{ p.clienteNome }}</dd>
+          <dt>Data</dt><dd>{{ p.dataPedido | date: 'dd/MM/yyyy HH:mm' }}</dd>
+          <dt>Subtotal</dt><dd>{{ p.subtotal | currency }}</dd>
+          @if (p.codigoCupom) {
+            <dt>Desconto ({{ p.codigoCupom }})</dt><dd>- {{ p.desconto | currency }}</dd>
+          }
+          <dt class="total">Total</dt><dd class="total">{{ p.total | currency }}</dd>
+        </dl>
+
+        <div class="acoes">
+          @if (proximo(); as prox) {
+            <button mat-flat-button (click)="alterar(prox)" [disabled]="carregando()">
+              <mat-icon aria-hidden="true">arrow_forward</mat-icon> Marcar como {{ prox | statusPedido }}
+            </button>
+          }
+          @if (podeCancelar()) {
+            <button mat-stroked-button (click)="alterar('CANCELADO')" [disabled]="carregando()">
+              <mat-icon aria-hidden="true">cancel</mat-icon> Cancelar pedido
+            </button>
+          }
+          @if (!proximo() && !podeCancelar()) {
+            <p class="texto-secundario">Este pedido está finalizado e não pode mais ser alterado.</p>
+          }
+        </div>
+      </aside>
+    </div>
+  }
+</section>

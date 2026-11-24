@@ -1,0 +1,49 @@
+<section class="pagina">
+  <div class="cabecalho-pagina"><h1>{{ id() ? 'Editar cliente' : 'Novo cliente' }}</h1></div>
+
+  <div class="cartao">
+    @if (carregando() || salvando()) {
+      <mat-progress-bar mode="indeterminate" aria-label="Processando" />
+    }
+
+    <form [formGroup]="form" (ngSubmit)="salvar()" class="form-grid">
+      <mat-form-field class="largura-total">
+        <mat-label>Nome completo</mat-label>
+        <input matInput formControlName="nome" maxlength="100" required autocomplete="name" />
+        @if (form.controls.nome.hasError('required')) { <mat-error>O nome é obrigatório.</mat-error> }
+        @else if (form.controls.nome.hasError('minlength')) { <mat-error>Mínimo de 3 caracteres.</mat-error> }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>E-mail</mat-label>
+        <input matInput type="email" formControlName="email" required autocomplete="email" />
+        @if (form.controls.email.hasError('required')) { <mat-error>O e-mail é obrigatório.</mat-error> }
+        @else if (form.controls.email.hasError('email')) { <mat-error>Informe um e-mail válido.</mat-error> }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>CPF (somente números)</mat-label>
+        <input matInput formControlName="cpf" maxlength="11" inputmode="numeric" required />
+        <mat-hint align="end">{{ form.controls.cpf.value.length }}/11</mat-hint>
+        @if (form.controls.cpf.hasError('required')) { <mat-error>O CPF é obrigatório.</mat-error> }
+        @else if (form.controls.cpf.hasError('pattern')) { <mat-error>O CPF deve ter 11 dígitos numéricos.</mat-error> }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Telefone com DDD (somente números)</mat-label>
+        <input matInput formControlName="telefone" maxlength="11" inputmode="tel" autocomplete="tel" />
+        @if (form.controls.telefone.hasError('pattern')) { <mat-error>Use 10 ou 11 dígitos.</mat-error> }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Endereço</mat-label>
+        <input matInput formControlName="endereco" maxlength="255" autocomplete="street-address" />
+      </mat-form-field>
+
+      <div class="acoes-form largura-total">
+        <a mat-button routerLink="/clientes">Cancelar</a>
+        <button mat-flat-button type="submit" [disabled]="form.invalid || salvando()">Salvar</button>
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,92 @@
+<section class="pagina">
+  <div class="cabecalho-pagina"><h1>Carrinho</h1></div>
+
+  @if (carrinho.itens().length === 0) {
+    <div class="cartao">
+      <app-estado-vazio mensagem="Seu carrinho está vazio." icone="remove_shopping_cart">
+        <a mat-flat-button routerLink="/catalogo">Ir para o catálogo</a>
+      </app-estado-vazio>
+    </div>
+  } @else {
+    <div class="layout">
+      <div class="cartao itens">
+        @for (item of carrinho.itens(); track item.produtoId) {
+          <div class="item">
+            <img [src]="item.imagemUrl || 'https://picsum.photos/seed/vazio/400/300'" [alt]="item.nome" class="foto" />
+            <div class="dados">
+              <a [routerLink]="['/catalogo', item.produtoId]" class="nome">{{ item.nome }}</a>
+              <span class="texto-secundario">{{ item.precoUnitario | currency }} cada</span>
+            </div>
+            <div class="quantidade" role="group" [attr.aria-label]="'Quantidade de ' + item.nome">
+              <button mat-icon-button (click)="alterar(item, item.quantidade - 1)" [disabled]="item.quantidade <= 1" aria-label="Diminuir quantidade">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <input
+                class="campo-qtd"
+                type="number"
+                min="1"
+                [max]="item.estoqueDisponivel"
+                [value]="item.quantidade"
+                (change)="alterar(item, +$any($event.target).value)"
+                [attr.aria-label]="'Quantidade de ' + item.nome"
+              />
+              <button mat-icon-button (click)="alterar(item, item.quantidade + 1)" [disabled]="item.quantidade >= item.estoqueDisponivel" aria-label="Aumentar quantidade">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            <span class="subtotal preco" aria-label="Subtotal do item">{{ carrinho.subtotal(item) | currency }}</span>
+            <button mat-icon-button (click)="remover(item)" [attr.aria-label]="'Remover ' + item.nome" matTooltip="Remover">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <mat-divider />
+        }
+      </div>
+
+      <aside class="cartao resumo" aria-label="Resumo do pedido">
+        <h2>Resumo</h2>
+        <form [formGroup]="form" (ngSubmit)="finalizar()">
+          <mat-form-field class="largura">
+            <mat-label>Cliente</mat-label>
+            <mat-select formControlName="clienteId" required>
+              @for (c of clientes(); track c.id) {
+                <mat-option [value]="c.id">{{ c.nome }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.clienteId.hasError('required')) {
+              <mat-error>Selecione o cliente do pedido.</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="cupom">
+            <mat-form-field class="largura">
+              <mat-label>Cupom de desconto</mat-label>
+              <input matInput formControlName="codigoCupom" [readonly]="!!cupom()" (keydown.enter)="$event.preventDefault(); aplicarCupom()" />
+            </mat-form-field>
+            @if (cupom()) {
+              <button mat-stroked-button type="button" (click)="removerCupom()">Remover</button>
+            } @else {
+              <button mat-stroked-button type="button" (click)="aplicarCupom()">Aplicar</button>
+            }
+          </div>
+
+          <dl class="totais">
+            <dt>Subtotal</dt><dd>{{ carrinho.total() | currency }}</dd>
+            @if (cupom(); as c) {
+              <dt>Desconto ({{ c.percentual }}%)</dt><dd class="desconto">- {{ desconto() | currency }}</dd>
+            }
+            <dt class="total">Total</dt><dd class="total">{{ totalFinal() | currency }}</dd>
+          </dl>
+
+          @if (finalizando()) {
+            <mat-progress-bar mode="indeterminate" aria-label="Finalizando pedido" />
+          }
+          <button mat-flat-button type="submit" class="largura" [disabled]="form.invalid || finalizando()">
+            <mat-icon aria-hidden="true">check</mat-icon> Finalizar pedido
+          </button>
+          <p class="texto-secundario aviso">Estoque e preços são conferidos novamente pelo servidor ao finalizar.</p>
+        </form>
+      </aside>
+    </div>
+  }
+</section>

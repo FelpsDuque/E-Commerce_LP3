@@ -1,0 +1,13 @@
+.grade {
+  display: grid; gap: 16px; margin: 8px 0 16px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+}
+.card-produto { display: flex; flex-direction: column; overflow: hidden; }
+.card-produto img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+.card-produto mat-card-content { flex: 1; padding-top: 12px; }
+.card-produto mat-card-actions { justify-content: space-between; flex-wrap: wrap; }
+.categoria { font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+.nome { font: var(--mat-sys-title-medium); margin: 4px 0 8px; }
+.preco { font-size: 1.25rem; }
+.link-imagem { display: block; }
+mat-paginator { background: transparent; }

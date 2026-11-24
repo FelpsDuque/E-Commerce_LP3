@@ -1,0 +1,71 @@
+<mat-sidenav-container class="container">
+  <mat-sidenav
+    #menu
+    [mode]="modoMenu()"
+    [opened]="!celular()"
+    class="menu-lateral"
+    aria-label="Menu de navegação"
+  >
+    <div class="marca">
+      <mat-icon aria-hidden="true">shopping_bag</mat-icon>
+      <span>Loja UNEB</span>
+    </div>
+
+    <mat-nav-list>
+      <h3 matSubheader>Loja</h3>
+      @for (item of loja; track item.rota) {
+        <a
+          mat-list-item
+          [routerLink]="item.rota"
+          routerLinkActive="ativo"
+          [routerLinkActiveOptions]="{ exact: item.rota === '/' }"
+          (click)="celular() && menu.close()"
+        >
+          <mat-icon matListItemIcon aria-hidden="true">{{ item.icone }}</mat-icon>
+          <span matListItemTitle>{{ item.rotulo }}</span>
+        </a>
+      }
+      <h3 matSubheader>Gestão</h3>
+      @for (item of gestao; track item.rota) {
+        <a
+          mat-list-item
+          [routerLink]="item.rota"
+          routerLinkActive="ativo"
+          (click)="celular() && menu.close()"
+        >
+          <mat-icon matListItemIcon aria-hidden="true">{{ item.icone }}</mat-icon>
+          <span matListItemTitle>{{ item.rotulo }}</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="barra">
+      @if (celular()) {
+        <button mat-icon-button (click)="menu.toggle()" aria-label="Abrir menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+      <a routerLink="/" class="titulo">Loja Virtual</a>
+      <span class="espaco"></span>
+      <a
+        mat-icon-button
+        routerLink="/carrinho"
+        [attr.aria-label]="'Carrinho com ' + qtdCarrinho() + ' itens'"
+      >
+        <mat-icon
+          [matBadge]="qtdCarrinho()"
+          [matBadgeHidden]="qtdCarrinho() === 0"
+          matBadgeColor="accent"
+          aria-hidden="true"
+          >shopping_cart</mat-icon
+        >
+      </a>
+    </mat-toolbar>
+
+    <main>
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

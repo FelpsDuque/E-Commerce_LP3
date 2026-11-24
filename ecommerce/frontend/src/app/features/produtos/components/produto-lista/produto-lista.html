@@ -1,0 +1,95 @@
+<section class="pagina">
+  <div class="cabecalho-pagina">
+    <h1>Produtos</h1>
+    <a mat-flat-button routerLink="novo"><mat-icon aria-hidden="true">add</mat-icon> Novo produto</a>
+  </div>
+
+  <form class="filtros" [formGroup]="filtros" role="search">
+    <mat-form-field>
+      <mat-label>Buscar por nome</mat-label>
+      <input matInput formControlName="nome" />
+      <mat-icon matSuffix aria-hidden="true">search</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Categoria</mat-label>
+      <mat-select formControlName="categoriaId">
+        <mat-option [value]="null">Todas</mat-option>
+        @for (c of categorias(); track c.id) {
+          <mat-option [value]="c.id">{{ c.nome }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Situação</mat-label>
+      <mat-select formControlName="ativo">
+        <mat-option [value]="null">Todos</mat-option>
+        <mat-option [value]="true">Ativos</mat-option>
+        <mat-option [value]="false">Inativos</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+
+  <div class="cartao">
+    @if (carregando()) {
+      <mat-progress-bar mode="indeterminate" aria-label="Carregando produtos" />
+    }
+
+    @if (!carregando() && produtos().length === 0) {
+      <app-estado-vazio mensagem="Nenhum produto encontrado com os filtros informados." icone="inventory_2" />
+    } @else {
+      <table mat-table [dataSource]="produtos()" class="tabela">
+        <ng-container matColumnDef="imagem">
+          <th mat-header-cell *matHeaderCellDef class="esconder-sm"><span class="cdk-visually-hidden">Imagem</span></th>
+          <td mat-cell *matCellDef="let p" class="esconder-sm">
+            @if (p.imagemUrl) {
+              <img class="miniatura" [src]="p.imagemUrl" [alt]="p.nome" loading="lazy" />
+            }
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td mat-cell *matCellDef="let p">{{ p.nome }}</td>
+        </ng-container>
+        <ng-container matColumnDef="categoria">
+          <th mat-header-cell *matHeaderCellDef class="esconder-md">Categoria</th>
+          <td mat-cell *matCellDef="let p" class="esconder-md">{{ p.categoriaNome }}</td>
+        </ng-container>
+        <ng-container matColumnDef="preco">
+          <th mat-header-cell *matHeaderCellDef>Preço</th>
+          <td mat-cell *matCellDef="let p">{{ p.preco | currency }}</td>
+        </ng-container>
+        <ng-container matColumnDef="estoque">
+          <th mat-header-cell *matHeaderCellDef class="esconder-sm">Estoque</th>
+          <td mat-cell *matCellDef="let p" class="esconder-sm" [class.alerta-estoque]="p.estoque <= 2">{{ p.estoque }}</td>
+        </ng-container>
+        <ng-container matColumnDef="ativo">
+          <th mat-header-cell *matHeaderCellDef class="esconder-sm">Situação</th>
+          <td mat-cell *matCellDef="let p" class="esconder-sm">{{ p.ativo ? 'Ativo' : 'Inativo' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef class="celula-acoes">Ações</th>
+          <td mat-cell *matCellDef="let p" class="celula-acoes">
+            <a mat-icon-button [routerLink]="['edit', p.id]" [attr.aria-label]="'Editar ' + p.nome" matTooltip="Editar">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <button mat-icon-button (click)="excluir(p)" [disabled]="!p.ativo"
+                    [attr.aria-label]="'Excluir ' + p.nome" matTooltip="Excluir / inativar">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunas" [class.inativo]="!row.ativo"></tr>
+      </table>
+    }
+
+    <mat-paginator
+      [length]="total()"
+      [pageIndex]="pagina"
+      [pageSize]="tamanho"
+      [pageSizeOptions]="[5, 10, 20]"
+      (page)="mudarPagina($event)"
+      aria-label="Paginação de produtos"
+    />
+  </div>
+</section>

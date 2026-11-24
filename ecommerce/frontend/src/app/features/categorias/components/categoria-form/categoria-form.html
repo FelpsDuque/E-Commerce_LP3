@@ -1,0 +1,34 @@
+<section class="pagina">
+  <div class="cabecalho-pagina">
+    <h1>{{ id() ? 'Editar categoria' : 'Nova categoria' }}</h1>
+  </div>
+
+  <div class="cartao">
+    @if (carregando() || salvando()) {
+      <mat-progress-bar mode="indeterminate" aria-label="Processando" />
+    }
+
+    <form [formGroup]="form" (ngSubmit)="salvar()" class="form-grid">
+      <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" maxlength="60" required />
+        @if (form.controls.nome.hasError('required')) {
+          <mat-error>O nome é obrigatório.</mat-error>
+        } @else if (form.controls.nome.hasError('minlength')) {
+          <mat-error>Mínimo de 2 caracteres.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="largura-total">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput formControlName="descricao" rows="3" maxlength="255"></textarea>
+        <mat-hint align="end">{{ form.controls.descricao.value.length }}/255</mat-hint>
+      </mat-form-field>
+
+      <div class="acoes-form largura-total">
+        <a mat-button routerLink="/categorias">Cancelar</a>
+        <button mat-flat-button type="submit" [disabled]="form.invalid || salvando()">Salvar</button>
+      </div>
+    </form>
+  </div>
+</section>

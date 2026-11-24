@@ -1,0 +1,908 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "E-commerce AV4",
+  "collectionId": "738da299-0888-4218-9f18-0064b981da65",
+  "dateExported": "2026-11-24T12:00:00Z",
+  "version": "1.2",
+  "folders": [
+    {
+      "_id": "6471ece1-68d9-4028-a57d-b038ee0927f0",
+      "name": "1 - Categorias",
+      "containerId": "",
+      "created": "2026-11-24T12:00:00Z",
+      "sortNum": 10000
+    },
+    {
+      "_id": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "2 - Produtos / Catálogo",
+      "containerId": "",
+      "created": "2026-11-24T12:00:00Z",
+      "sortNum": 20000
+    },
+    {
+      "_id": "b4f4b742-9d5c-4a25-9c4e-67821ed3708d",
+      "name": "3 - Clientes",
+      "containerId": "",
+      "created": "2026-11-24T12:00:00Z",
+      "sortNum": 30000
+    },
+    {
+      "_id": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "4 - Pedidos",
+      "containerId": "",
+      "created": "2026-11-24T12:00:00Z",
+      "sortNum": 40000
+    },
+    {
+      "_id": "179b8bcb-94c7-402d-8627-cbc242e3e1fe",
+      "name": "5 - Cupons",
+      "containerId": "",
+      "created": "2026-11-24T12:00:00Z",
+      "sortNum": 50000
+    },
+    {
+      "_id": "ccb09f1a-0368-406c-bfe8-743d3133f57a",
+      "name": "6 - Relatórios",
+      "containerId": "",
+      "created": "2026-11-24T12:00:00Z",
+      "sortNum": 60000
+    }
+  ],
+  "requests": [
+    {
+      "_id": "254e5ddd-22fe-4cd7-9417-3fcba81a7485",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "6471ece1-68d9-4028-a57d-b038ee0927f0",
+      "name": "Listar categorias",
+      "url": "http://localhost:8080/api/categorias",
+      "method": "GET",
+      "sortNum": 10000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "48c9ba2f-9105-47a8-9e9a-aeec027fadbd",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "6471ece1-68d9-4028-a57d-b038ee0927f0",
+      "name": "Buscar categoria 1",
+      "url": "http://localhost:8080/api/categorias/1",
+      "method": "GET",
+      "sortNum": 20000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "df6c17c4-88a5-4deb-a509-5421c56d3fda",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "6471ece1-68d9-4028-a57d-b038ee0927f0",
+      "name": "Criar categoria",
+      "url": "http://localhost:8080/api/categorias",
+      "method": "POST",
+      "sortNum": 30000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Games\",\n  \"descricao\": \"Consoles e jogos\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "af03b089-c630-4dd2-b8c6-eed01556996a",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "6471ece1-68d9-4028-a57d-b038ee0927f0",
+      "name": "Atualizar categoria 1",
+      "url": "http://localhost:8080/api/categorias/1",
+      "method": "PUT",
+      "sortNum": 40000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Eletrônicos\",\n  \"descricao\": \"Fones, relógios, áudio e acessórios\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "6578671b-9c5a-47ea-b627-ebfbf70931e6",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "6471ece1-68d9-4028-a57d-b038ee0927f0",
+      "name": "Excluir categoria com produtos (409)",
+      "url": "http://localhost:8080/api/categorias/1",
+      "method": "DELETE",
+      "sortNum": 50000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "83813edf-1079-4d16-a85a-328f41e148e1",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "6471ece1-68d9-4028-a57d-b038ee0927f0",
+      "name": "Categoria inexistente (404)",
+      "url": "http://localhost:8080/api/categorias/999",
+      "method": "GET",
+      "sortNum": 60000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "953d5469-f13c-457f-9864-466050176b07",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "6471ece1-68d9-4028-a57d-b038ee0927f0",
+      "name": "Id inválido (400)",
+      "url": "http://localhost:8080/api/categorias/0",
+      "method": "GET",
+      "sortNum": 70000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "9891d2e5-f8ea-4e2d-abb5-a54849f83914",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Catálogo paginado",
+      "url": "http://localhost:8080/api/produtos?page=0&size=5&sort=preco,asc",
+      "method": "GET",
+      "sortNum": 80000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "ecc29b9f-ab2c-4cb0-bf16-48752283d417",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Buscar por nome e categoria",
+      "url": "http://localhost:8080/api/produtos?nome=livro&categoriaId=3&ativo=true",
+      "method": "GET",
+      "sortNum": 90000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "ec0234c2-9caa-426c-9512-7cf123322a94",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Buscar produto 1",
+      "url": "http://localhost:8080/api/produtos/1",
+      "method": "GET",
+      "sortNum": 100000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "2b216f35-24ed-4d3f-b99a-7f52e41cc26c",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Criar produto",
+      "url": "http://localhost:8080/api/produtos",
+      "method": "POST",
+      "sortNum": 110000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Headset Gamer\",\n  \"descricao\": \"Som surround 7.1\",\n  \"preco\": 249.9,\n  \"estoque\": 15,\n  \"imagemUrl\": \"https://picsum.photos/seed/headset/400/300\",\n  \"categoriaId\": 1\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "681291bf-ad73-49e5-ae77-357a18b22847",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Criar produto inválido - RN04 (400)",
+      "url": "http://localhost:8080/api/produtos",
+      "method": "POST",
+      "sortNum": 120000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"X\",\n  \"preco\": 0,\n  \"estoque\": -1,\n  \"categoriaId\": 1\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "9b504f27-2b22-4dc4-bcd6-f877bfa1daba",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Atualizar produto 1 (muda preço - RN02)",
+      "url": "http://localhost:8080/api/produtos/1",
+      "method": "PUT",
+      "sortNum": 130000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Fone Bluetooth XZ\",\n  \"descricao\": \"Fone sem fio\",\n  \"preco\": 219.9,\n  \"estoque\": 22,\n  \"imagemUrl\": \"https://picsum.photos/seed/fone/400/300\",\n  \"categoriaId\": 1,\n  \"ativo\": true\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "5209d575-2dee-4ad0-a7af-61cd5602b9df",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Excluir produto já vendido -> inativa (200, RN04)",
+      "url": "http://localhost:8080/api/produtos/5",
+      "method": "DELETE",
+      "sortNum": 140000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "fa25eeaf-4260-4bc1-b51a-72133ae49567",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Excluir produto nunca vendido (204)",
+      "url": "http://localhost:8080/api/produtos/15",
+      "method": "DELETE",
+      "sortNum": 150000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "7c066a8e-20bc-4125-b3e5-da00fcec414e",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Avaliações do produto 1",
+      "url": "http://localhost:8080/api/produtos/1/avaliacoes",
+      "method": "GET",
+      "sortNum": 160000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "3398e3ce-b1b7-4a8b-8056-440bc918c971",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Avaliar produto (cliente que comprou)",
+      "url": "http://localhost:8080/api/produtos/9/avaliacoes",
+      "method": "POST",
+      "sortNum": 170000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"clienteId\": 3,\n  \"nota\": 5,\n  \"comentario\": \"Excelente livro!\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "c40a01cc-5406-417b-a414-8acd6aeaf68b",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "0a993bfc-6c0d-4255-82cb-4b5e8cea6441",
+      "name": "Avaliar sem ter comprado (409)",
+      "url": "http://localhost:8080/api/produtos/2/avaliacoes",
+      "method": "POST",
+      "sortNum": 180000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"clienteId\": 1,\n  \"nota\": 4,\n  \"comentario\": \"Teste\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "d78085c7-9374-4606-8bb5-1eadd3fe63fd",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "b4f4b742-9d5c-4a25-9c4e-67821ed3708d",
+      "name": "Listar clientes",
+      "url": "http://localhost:8080/api/clientes?nome=a&page=0&size=10",
+      "method": "GET",
+      "sortNum": 190000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "5785aba3-9b2f-48aa-8278-b6efa196150e",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "b4f4b742-9d5c-4a25-9c4e-67821ed3708d",
+      "name": "Buscar cliente 1",
+      "url": "http://localhost:8080/api/clientes/1",
+      "method": "GET",
+      "sortNum": 200000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "e6172452-01a3-4632-a0c3-a71dcbab9044",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "b4f4b742-9d5c-4a25-9c4e-67821ed3708d",
+      "name": "Pedidos do cliente 1 (RF06)",
+      "url": "http://localhost:8080/api/clientes/1/pedidos",
+      "method": "GET",
+      "sortNum": 210000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "8fa1ca31-a735-4117-91f5-7150d892e80a",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "b4f4b742-9d5c-4a25-9c4e-67821ed3708d",
+      "name": "Criar cliente",
+      "url": "http://localhost:8080/api/clientes",
+      "method": "POST",
+      "sortNum": 220000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Gabriela Alves\",\n  \"email\": \"gabi@email.com\",\n  \"cpf\": \"77788899900\",\n  \"telefone\": \"71998887777\",\n  \"endereco\": \"Rua A, 1 - Salvador/BA\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "f3921f36-c999-4f00-b906-4819ca873384",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "b4f4b742-9d5c-4a25-9c4e-67821ed3708d",
+      "name": "Criar cliente e-mail duplicado (409)",
+      "url": "http://localhost:8080/api/clientes",
+      "method": "POST",
+      "sortNum": 230000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Outra Ana\",\n  \"email\": \"ana.souza@email.com\",\n  \"cpf\": \"12312312312\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "dab5bf88-34dd-4bcd-9865-6822df714501",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "b4f4b742-9d5c-4a25-9c4e-67821ed3708d",
+      "name": "Atualizar cliente 2",
+      "url": "http://localhost:8080/api/clientes/2",
+      "method": "PUT",
+      "sortNum": 240000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Bruno Lima\",\n  \"email\": \"bruno.lima@email.com\",\n  \"cpf\": \"22233344455\",\n  \"telefone\": \"71992223333\",\n  \"endereco\": \"Novo endereço\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "3fc4b9d5-cee2-41e3-8859-35cc510b6502",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "b4f4b742-9d5c-4a25-9c4e-67821ed3708d",
+      "name": "Excluir cliente sem pedidos (204)",
+      "url": "http://localhost:8080/api/clientes/6",
+      "method": "DELETE",
+      "sortNum": 250000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "33d0c870-1f58-4fbf-ac3f-2711cec0d22d",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "b4f4b742-9d5c-4a25-9c4e-67821ed3708d",
+      "name": "Excluir cliente com pedidos (409)",
+      "url": "http://localhost:8080/api/clientes/1",
+      "method": "DELETE",
+      "sortNum": 260000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "e49d346e-d096-43b5-8ae3-e24196b7278d",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Listar pedidos",
+      "url": "http://localhost:8080/api/pedidos?page=0&size=10",
+      "method": "GET",
+      "sortNum": 270000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "460cb23b-8195-4316-a478-51dfdf8d1dcb",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Filtrar por status",
+      "url": "http://localhost:8080/api/pedidos?status=PENDENTE",
+      "method": "GET",
+      "sortNum": 280000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "9556c131-c6ac-4eb4-85e2-a7bd925b9788",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Buscar pedido 1 (preço antigo - RN02)",
+      "url": "http://localhost:8080/api/pedidos/1",
+      "method": "GET",
+      "sortNum": 290000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "a7b04238-89bd-4a59-b2d4-bf41c0bb3150",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Finalizar pedido (201)",
+      "url": "http://localhost:8080/api/pedidos",
+      "method": "POST",
+      "sortNum": 300000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"clienteId\": 4,\n  \"itens\": [\n    {\n      \"produtoId\": 1,\n      \"quantidade\": 2\n    },\n    {\n      \"produtoId\": 10,\n      \"quantidade\": 1\n    }\n  ],\n  \"codigoCupom\": \"BEMVINDO10\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "e4616d83-e191-4711-af52-26c1ed4d1bf1",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Finalizar acima do estoque - RN01 (409)",
+      "url": "http://localhost:8080/api/pedidos",
+      "method": "POST",
+      "sortNum": 310000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"clienteId\": 1,\n  \"itens\": [\n    {\n      \"produtoId\": 3,\n      \"quantidade\": 5\n    }\n  ],\n  \"codigoCupom\": null\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "1e3c8d5b-056a-4b6e-9ff9-8f132a11b337",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Finalizar com produto esgotado (409)",
+      "url": "http://localhost:8080/api/pedidos",
+      "method": "POST",
+      "sortNum": 320000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"clienteId\": 1,\n  \"itens\": [\n    {\n      \"produtoId\": 7,\n      \"quantidade\": 1\n    }\n  ]\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "a63806ee-2902-49fc-968c-a88e95c496c9",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Finalizar com cupom expirado (409)",
+      "url": "http://localhost:8080/api/pedidos",
+      "method": "POST",
+      "sortNum": 330000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"clienteId\": 1,\n  \"itens\": [\n    {\n      \"produtoId\": 2,\n      \"quantidade\": 1\n    }\n  ],\n  \"codigoCupom\": \"NATAL15\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "2eb77023-7859-4a7e-b146-1aa2aa7874b3",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Finalizar carrinho vazio (400)",
+      "url": "http://localhost:8080/api/pedidos",
+      "method": "POST",
+      "sortNum": 340000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"clienteId\": 1,\n  \"itens\": []\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "84ded650-6479-4d34-9001-fca718dfc41e",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Avançar status 6: PENDENTE -> PAGO",
+      "url": "http://localhost:8080/api/pedidos/6/status",
+      "method": "PATCH",
+      "sortNum": 350000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"PAGO\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "b9969e3e-2f4c-4fad-aad6-15c97dcb00cb",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Pular etapa 5: PAGO -> ENTREGUE (409)",
+      "url": "http://localhost:8080/api/pedidos/5/status",
+      "method": "PATCH",
+      "sortNum": 360000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"ENTREGUE\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "7b7da54b-b3e9-4dd1-afb0-bd9924db735b",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Retroceder 3: ENVIADO -> PAGO (409)",
+      "url": "http://localhost:8080/api/pedidos/3/status",
+      "method": "PATCH",
+      "sortNum": 370000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"PAGO\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "d3dbf7d4-9ea3-4018-bbbf-e502a7600a92",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Cancelar pedido 7 (devolve estoque - RN03)",
+      "url": "http://localhost:8080/api/pedidos/7/status",
+      "method": "PATCH",
+      "sortNum": 380000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"CANCELADO\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "5d1f0374-99d4-40b6-a130-dcbaec36140b",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Cancelar pedido ENVIADO (409)",
+      "url": "http://localhost:8080/api/pedidos/3/status",
+      "method": "PATCH",
+      "sortNum": 390000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"CANCELADO\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "43f5fefb-deb2-4ff1-b582-04dbec246d62",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "9e4fcdbe-a770-4ee1-98f1-2043502a1613",
+      "name": "Status inexistente (400)",
+      "url": "http://localhost:8080/api/pedidos/6/status",
+      "method": "PATCH",
+      "sortNum": 400000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"PERDIDO\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "fa1d6432-8a8e-4f79-ae3a-1bdcc3bb82d1",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "179b8bcb-94c7-402d-8627-cbc242e3e1fe",
+      "name": "Listar cupons",
+      "url": "http://localhost:8080/api/cupons",
+      "method": "GET",
+      "sortNum": 410000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "7da6a454-b62a-44cb-b26c-afaaff0ba100",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "179b8bcb-94c7-402d-8627-cbc242e3e1fe",
+      "name": "Buscar por código",
+      "url": "http://localhost:8080/api/cupons/codigo/BEMVINDO10",
+      "method": "GET",
+      "sortNum": 420000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "78613bd4-f56f-49b5-90de-9b7246ac1ea5",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "179b8bcb-94c7-402d-8627-cbc242e3e1fe",
+      "name": "Criar cupom",
+      "url": "http://localhost:8080/api/cupons",
+      "method": "POST",
+      "sortNum": 430000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"codigo\": \"FERIAS20\",\n  \"percentual\": 20,\n  \"validade\": \"2027-01-31\",\n  \"ativo\": true\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "f6d01bb9-6046-4523-89c0-f6e3b2b7716c",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "179b8bcb-94c7-402d-8627-cbc242e3e1fe",
+      "name": "Atualizar cupom 3",
+      "url": "http://localhost:8080/api/cupons/3",
+      "method": "PUT",
+      "sortNum": 440000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"codigo\": \"UNEB5\",\n  \"percentual\": 7.5,\n  \"validade\": \"2027-06-30\",\n  \"ativo\": true\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "7b3ba79d-4a7d-4419-95ae-cc45c698b2d9",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "179b8bcb-94c7-402d-8627-cbc242e3e1fe",
+      "name": "Excluir cupom já usado (409)",
+      "url": "http://localhost:8080/api/cupons/1",
+      "method": "DELETE",
+      "sortNum": 450000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "77af80bc-d142-45ae-a2ba-0c8ebec12b38",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "ccb09f1a-0368-406c-bfe8-743d3133f57a",
+      "name": "Mais vendidos (últimos 30 dias)",
+      "url": "http://localhost:8080/api/relatorios/mais-vendidos",
+      "method": "GET",
+      "sortNum": 460000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "2ebae395-951a-442d-82b7-830730730068",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "ccb09f1a-0368-406c-bfe8-743d3133f57a",
+      "name": "Mais vendidos no período",
+      "url": "http://localhost:8080/api/relatorios/mais-vendidos?inicio=2026-09-01&fim=2026-12-31&limite=5",
+      "method": "GET",
+      "sortNum": 470000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    },
+    {
+      "_id": "4d15bbad-365e-45bd-8cdb-ea46c241e298",
+      "colId": "738da299-0888-4218-9f18-0064b981da65",
+      "containerId": "ccb09f1a-0368-406c-bfe8-743d3133f57a",
+      "name": "Período inválido (400)",
+      "url": "http://localhost:8080/api/relatorios/mais-vendidos?inicio=2026-12-31&fim=2026-01-01",
+      "method": "GET",
+      "sortNum": 480000,
+      "created": "2026-11-24T12:00:00Z",
+      "modified": "2026-11-24T12:00:00Z",
+      "headers": [],
+      "tests": []
+    }
+  ],
+  "ref": "ecommerce-av4"
+}

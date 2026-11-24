@@ -1,0 +1,89 @@
+@use '@angular/material' as mat;
+
+/* Fontes empacotadas localmente (funciona sem internet na apresentação) */
+@import 'material-icons/iconfont/filled.css';
+@import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$orange-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--mat-sys-surface-container-low);
+  color: var(--mat-sys-on-surface);
+}
+* { box-sizing: border-box; }
+img { max-width: 100%; }
+
+/* ---------- Layout das páginas ---------- */
+.pagina { max-width: 1200px; margin: 0 auto; padding: 16px; }
+@media (min-width: 768px) { .pagina { padding: 24px; } }
+
+.cabecalho-pagina {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 16px;
+  h1 { margin: 0; font: var(--mat-sys-headline-small); }
+}
+
+.filtros {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start;
+  mat-form-field { flex: 1 1 220px; min-width: 0; }
+}
+
+.cartao { background: var(--mat-sys-surface); border-radius: 12px; padding: 16px; }
+
+/* Tabelas responsivas: em telas pequenas escondemos colunas secundárias (RNF22) */
+.tabela { width: 100%; }
+.tabela td, .tabela th { padding: 0 8px; }
+@media (max-width: 767px) { .esconder-sm { display: none; } }
+@media (max-width: 1023px) { .esconder-md { display: none; } }
+.celula-acoes { white-space: nowrap; text-align: right; width: 1%; }
+
+/* ---------- Formulários ---------- */
+.form-grid {
+  display: grid; grid-template-columns: 1fr; gap: 4px 16px;
+  @media (min-width: 768px) { grid-template-columns: 1fr 1fr; }
+  .largura-total { grid-column: 1 / -1; }
+}
+.acoes-form { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; margin-top: 8px; }
+
+/* ---------- Estado vazio ---------- */
+.estado-vazio {
+  text-align: center; padding: 40px 16px; color: var(--mat-sys-on-surface-variant);
+  mat-icon { font-size: 48px; width: 48px; height: 48px; }
+}
+
+/* ---------- Status do pedido ---------- */
+.status { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+.status-PENDENTE { background: #fff3cd; color: #6b4e00; }
+.status-PAGO { background: #d1ecf1; color: #0c4a57; }
+.status-ENVIADO { background: #e2d9f3; color: #3d2a6b; }
+.status-ENTREGUE { background: #d4edda; color: #1b5e20; }
+.status-CANCELADO { background: #f8d7da; color: #7a1c24; }
+
+.texto-secundario { color: var(--mat-sys-on-surface-variant); }
+.preco { font-weight: 700; color: var(--mat-sys-primary); }
+.alerta-estoque { color: #b3261e; font-weight: 500; }
+
+.botao-perigo {
+  --mat-button-filled-container-color: #b3261e;
+  --mat-button-filled-label-text-color: #fff;
+}
+.snack-sucesso { --mat-snack-bar-container-color: #1b5e20; --mat-snack-bar-supporting-text-color: #fff; --mat-snack-bar-button-color: #c8e6c9; }
+.snack-erro { --mat-snack-bar-container-color: #7a1c24; --mat-snack-bar-supporting-text-color: #fff; --mat-snack-bar-button-color: #ffcdd2; }
+
+.carregando-centro { display: flex; justify-content: center; padding: 32px; }
