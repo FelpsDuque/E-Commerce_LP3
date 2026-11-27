@@ -1,97 +1,108 @@
 <section class="pagina">
-  <a mat-button routerLink="/catalogo"><mat-icon aria-hidden="true">arrow_back</mat-icon> Voltar ao catálogo</a>
+  <a routerLink="/catalogo" class="voltar">← Voltar ao catálogo</a>
 
   @if (carregando()) {
     <mat-progress-bar mode="indeterminate" aria-label="Carregando produto" />
   }
 
   @if (produto(); as p) {
-    <div class="cartao detalhe">
-      <img [src]="p.imagemUrl || 'https://picsum.photos/seed/vazio/400/300'" [alt]="p.nome" class="foto" />
+    <div class="detalhe">
+      <img [src]="p.imagemUrl || 'https://picsum.photos/seed/vazio/800/800'" [alt]="p.nome" class="gs-imagem foto" />
+
       <div class="info">
-        <span class="texto-secundario">{{ p.categoriaNome }}</span>
-        <h1>{{ p.nome }}</h1>
+        <span class="gs-sobretitulo">{{ p.categoriaNome }}</span>
+        <h1 class="gs-h1">{{ p.nome }}</h1>
         @if (resumo()?.media; as media) {
           <p class="media" [attr.aria-label]="'Nota média ' + (media | number: '1.1-1') + ' de 5'">
             @for (e of estrelas; track e) {
               <mat-icon aria-hidden="true">{{ e <= media + 0.25 ? 'star' : 'star_border' }}</mat-icon>
             }
-            <span>{{ media | number: '1.1-1' }} ({{ resumo()?.total }})</span>
+            <span>{{ media | number: '1.1-1' }} · {{ resumo()?.total }} avaliações</span>
           </p>
         }
-        <p class="preco grande">{{ p.preco | currency }}</p>
-        <p>{{ p.descricao }}</p>
+        <p class="gs-preco-destaque">{{ p.preco | currency }}</p>
+        @if (p.descricao) { <p class="descricao">{{ p.descricao }}</p> }
 
         @if (!p.ativo) {
           <p class="alerta-estoque">Produto indisponível.</p>
         } @else if (p.estoque === 0) {
           <p class="alerta-estoque">Esgotado.</p>
         } @else {
-          <p class="texto-secundario">{{ p.estoque }} unidade(s) em estoque</p>
+          <p class="texto-secundario estoque">{{ p.estoque }} unidade(s) em estoque</p>
           <div class="comprar">
-            <mat-form-field class="campo-qtd">
-              <mat-label>Quantidade</mat-label>
-              <input matInput type="number" [formControl]="quantidade" min="1" [max]="p.estoque" />
-              @if (quantidade.hasError('max')) { <mat-error>Máximo {{ p.estoque }}.</mat-error> }
-              @if (quantidade.hasError('min')) { <mat-error>Mínimo 1.</mat-error> }
-            </mat-form-field>
-            <button mat-flat-button (click)="adicionar()" [disabled]="quantidade.invalid">
-              <mat-icon aria-hidden="true">add_shopping_cart</mat-icon> Adicionar ao carrinho
+            <div class="seletor-qtd" role="group" aria-label="Quantidade">
+              <button type="button" (click)="mudarQuantidade(-1)" [disabled]="quantidade.value <= 1" aria-label="Diminuir quantidade">−</button>
+              <input type="number" [formControl]="quantidade" min="1" [max]="p.estoque" aria-label="Quantidade" />
+              <button type="button" (click)="mudarQuantidade(1)" [disabled]="quantidade.value >= p.estoque" aria-label="Aumentar quantidade">+</button>
+            </div>
+            <button mat-flat-button class="gs-primario botao-comprar" (click)="adicionar()" [disabled]="quantidade.invalid">
+              Adicionar ao carrinho
             </button>
           </div>
+          @if (quantidade.hasError('max')) { <p class="erro-qtd" role="alert">Máximo {{ p.estoque }}.</p> }
+          @if (quantidade.hasError('min') || quantidade.hasError('required')) { <p class="erro-qtd" role="alert">Mínimo 1.</p> }
         }
       </div>
     </div>
 
-    <div class="cartao avaliacoes">
-      <h2>Avaliações</h2>
-      @if (resumo()?.avaliacoes?.length) {
-        @for (a of resumo()!.avaliacoes; track a.id) {
-          <article class="avaliacao">
-            <strong>{{ a.clienteNome }}</strong>
-            <span class="notas" [attr.aria-label]="'Nota ' + a.nota + ' de 5'">
-              @for (e of estrelas; track e) {
-                <mat-icon aria-hidden="true">{{ e <= a.nota ? 'star' : 'star_border' }}</mat-icon>
-              }
-            </span>
-            <span class="texto-secundario">{{ a.data | date: 'dd/MM/yyyy' }}</span>
-            @if (a.comentario) { <p>{{ a.comentario }}</p> }
-          </article>
-          <mat-divider />
+    <section class="avaliacoes" aria-labelledby="titulo-avaliacoes">
+      <div class="lista-avaliacoes">
+        <h2 id="titulo-avaliacoes" class="gs-h2">Avaliações</h2>
+        @if (resumo()?.avaliacoes?.length) {
+          @for (a of resumo()!.avaliacoes; track a.id) {
+            <article class="avaliacao">
+              <div class="avaliacao-topo">
+                <strong>{{ a.clienteNome }}</strong>
+                <span class="notas" [attr.aria-label]="'Nota ' + a.nota + ' de 5'">
+                  @for (e of estrelas; track e) {
+                    <mat-icon aria-hidden="true">{{ e <= a.nota ? 'star' : 'star_border' }}</mat-icon>
+                  }
+                </span>
+                <span class="texto-secundario data">{{ a.data | date: 'dd/MM/yyyy' }}</span>
+              </div>
+              @if (a.comentario) { <p>{{ a.comentario }}</p> }
+            </article>
+          }
+        } @else {
+          <app-estado-vazio mensagem="Este produto ainda não tem avaliações." icone="rate_review" />
         }
-      } @else {
-        <app-estado-vazio mensagem="Este produto ainda não tem avaliações." icone="rate_review" />
-      }
+      </div>
 
-      <h3>Avaliar este produto</h3>
-      <p class="texto-secundario">Somente clientes que compraram o produto podem avaliá-lo (uma vez por cliente).</p>
-      <form [formGroup]="formAvaliacao" (ngSubmit)="avaliar()" class="form-grid">
-        <mat-form-field>
-          <mat-label>Cliente</mat-label>
-          <mat-select formControlName="clienteId" required>
-            @for (c of clientes(); track c.id) {
-              <mat-option [value]="c.id">{{ c.nome }}</mat-option>
-            }
-          </mat-select>
-          @if (formAvaliacao.controls.clienteId.hasError('required')) { <mat-error>Selecione o cliente.</mat-error> }
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Nota</mat-label>
-          <mat-select formControlName="nota">
-            @for (e of estrelas; track e) {
-              <mat-option [value]="e">{{ e }} estrela(s)</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="largura-total">
-          <mat-label>Comentário</mat-label>
-          <textarea matInput formControlName="comentario" rows="3" maxlength="500"></textarea>
-          <mat-hint align="end">{{ formAvaliacao.controls.comentario.value.length }}/500</mat-hint>
-        </mat-form-field>
-        <div class="acoes-form largura-total">
-          <button mat-flat-button type="submit" [disabled]="formAvaliacao.invalid || enviando()">Enviar avaliação</button>
-        </div>
-      </form>
-    </div>
+      <div class="gs-painel form-avaliacao">
+        <h3 class="gs-h2">Avaliar este produto</h3>
+        <p class="texto-secundario">Somente clientes que compraram o produto podem avaliá-lo (uma vez por cliente).</p>
+        <form [formGroup]="formAvaliacao" (ngSubmit)="avaliar()" class="campos">
+          <div class="gs-campo">
+            <label class="gs-rotulo" id="rotulo-cliente-avaliacao">Cliente</label>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-select formControlName="clienteId" required aria-labelledby="rotulo-cliente-avaliacao" placeholder="Selecione">
+                @for (c of clientes(); track c.id) {
+                  <mat-option [value]="c.id">{{ c.nome }}</mat-option>
+                }
+              </mat-select>
+              @if (formAvaliacao.controls.clienteId.hasError('required')) { <mat-error>Selecione o cliente.</mat-error> }
+            </mat-form-field>
+          </div>
+          <div class="gs-campo">
+            <label class="gs-rotulo" id="rotulo-nota-avaliacao">Nota</label>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-select formControlName="nota" aria-labelledby="rotulo-nota-avaliacao">
+                @for (e of estrelas; track e) {
+                  <mat-option [value]="e">{{ e }} estrela(s)</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="gs-campo">
+            <label class="gs-rotulo" for="comentario-avaliacao">Comentário</label>
+            <mat-form-field subscriptSizing="dynamic">
+              <textarea id="comentario-avaliacao" matInput formControlName="comentario" rows="3" maxlength="500"></textarea>
+              <mat-hint align="end">{{ formAvaliacao.controls.comentario.value.length }}/500</mat-hint>
+            </mat-form-field>
+          </div>
+          <button mat-flat-button class="gs-primario" type="submit" [disabled]="formAvaliacao.invalid || enviando()">Enviar avaliação</button>
+        </form>
+      </div>
+    </section>
   }
 </section>

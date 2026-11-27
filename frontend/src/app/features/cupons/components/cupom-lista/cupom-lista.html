@@ -1,10 +1,10 @@
 <section class="pagina">
   <div class="cabecalho-pagina">
-    <h1>Cupons de desconto</h1>
-    <a mat-flat-button routerLink="novo"><mat-icon aria-hidden="true">add</mat-icon> Novo cupom</a>
+    <h1>Cupons <span class="gs-contagem">{{ cupons().length }}</span></h1>
+    <a mat-flat-button class="gs-primario" routerLink="novo">Novo cupom</a>
   </div>
 
-  <div class="cartao">
+  <div>
     @if (carregando()) {
       <mat-progress-bar mode="indeterminate" aria-label="Carregando cupons" />
     }
@@ -26,17 +26,13 @@
         </ng-container>
         <ng-container matColumnDef="situacao">
           <th mat-header-cell *matHeaderCellDef>Situação</th>
-          <td mat-cell *matCellDef="let c" [class.alerta-estoque]="!c.valido">{{ situacao(c) }}</td>
+          <td mat-cell *matCellDef="let c"><span class="gs-status" [style.--cor-status]="c.valido ? 'var(--gs-sucesso)' : (c.ativo ? 'var(--gs-erro)' : 'var(--gs-desativado)')">{{ situacao(c) }}</span></td>
         </ng-container>
         <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef class="celula-acoes">Ações</th>
+          <th mat-header-cell *matHeaderCellDef class="celula-acoes"><span class="cdk-visually-hidden">Ações</span></th>
           <td mat-cell *matCellDef="let c" class="celula-acoes">
-            <a mat-icon-button [routerLink]="['edit', c.id]" [attr.aria-label]="'Editar cupom ' + c.codigo" matTooltip="Editar">
-              <mat-icon>edit</mat-icon>
-            </a>
-            <button mat-icon-button (click)="excluir(c)" [attr.aria-label]="'Excluir cupom ' + c.codigo" matTooltip="Excluir">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <a mat-button class="gs-acao" [routerLink]="['edit', c.id]" [attr.aria-label]="'Editar cupom ' + c.codigo">Editar</a>
+            <button mat-button class="gs-acao gs-perigo" (click)="excluir(c)" [attr.aria-label]="'Excluir cupom ' + c.codigo">Excluir</button>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="colunas"></tr>

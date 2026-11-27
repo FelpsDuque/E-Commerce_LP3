@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 /** RNF21 - Rotas por funcionalidade, carregadas sob demanda (lazy loading). */
 export const routes: Routes = [
-  { path: '', title: 'Início | Loja', loadComponent: () => import('./features/home/home').then((m) => m.Home) },
+  { path: '', title: 'Início | GarboShop', loadComponent: () => import('./features/home/home').then((m) => m.Home) },
   { path: 'catalogo', loadChildren: () => import('./features/catalogo/catalogo.routes').then((m) => m.CATALOGO_ROUTES) },
   { path: 'carrinho', loadChildren: () => import('./features/carrinho/carrinho.routes').then((m) => m.CARRINHO_ROUTES) },
   { path: 'produtos', loadChildren: () => import('./features/produtos/produtos.routes').then((m) => m.PRODUTOS_ROUTES) },

@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, input, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -16,11 +17,21 @@ import { NotificacaoService } from '../../../../shared/services/notificacao.serv
 @Component({
   selector: 'app-produto-form',
   imports: [
-    ReactiveFormsModule, RouterLink, MatFormFieldModule, MatInputModule, MatSelectModule,
+    ReactiveFormsModule, RouterLink, CurrencyPipe, MatFormFieldModule, MatInputModule, MatSelectModule,
     MatSlideToggleModule, MatButtonModule, MatProgressBarModule,
   ],
   templateUrl: './produto-form.html',
-  styles: `.previa { max-height: 160px; border-radius: 8px; }`,
+  styles: `
+    .layout {
+      display: grid; gap: 40px 56px; grid-template-columns: 1fr;
+      @media (min-width: 1024px) { grid-template-columns: minmax(0, 760px) 280px; align-items: start; }
+    }
+    .previa { display: flex; flex-direction: column; gap: 12px; position: sticky; top: 140px; }
+    .previa-imagem { position: relative; }
+    .previa-info { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+    .nome { font-weight: 500; overflow-wrap: anywhere; }
+    .preco { white-space: nowrap; }
+  `,
 })
 export class ProdutoForm implements OnInit {
   readonly id = input<string>();
@@ -74,6 +85,10 @@ export class ProdutoForm implements OnInit {
           this.router.navigate(['/produtos']);
         },
       });
+  }
+
+  nomeCategoria(id: number | null): string | null {
+    return this.categorias().find((c) => c.id === id)?.nome ?? null;
   }
 
   salvar(): void {

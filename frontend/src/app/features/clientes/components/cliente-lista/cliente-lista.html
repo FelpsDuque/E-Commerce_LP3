@@ -1,18 +1,17 @@
 <section class="pagina">
   <div class="cabecalho-pagina">
-    <h1>Clientes</h1>
-    <a mat-flat-button routerLink="novo"><mat-icon aria-hidden="true">person_add</mat-icon> Novo cliente</a>
+    <h1>Clientes <span class="gs-contagem">{{ total() }}</span></h1>
+    <a mat-flat-button class="gs-primario" routerLink="novo">Novo cliente</a>
   </div>
 
-  <div class="filtros" role="search">
-    <mat-form-field>
-      <mat-label>Buscar por nome</mat-label>
-      <input matInput [formControl]="busca" />
-      <mat-icon matSuffix aria-hidden="true">search</mat-icon>
-    </mat-form-field>
+  <div class="filtros barra-gestao" role="search">
+    <label class="gs-busca busca-gestao">
+      <mat-icon aria-hidden="true">search</mat-icon>
+      <input [formControl]="busca" placeholder="Buscar por nome" aria-label="Buscar por nome" />
+    </label>
   </div>
 
-  <div class="cartao">
+  <div>
     @if (carregando()) {
       <mat-progress-bar mode="indeterminate" aria-label="Carregando clientes" />
     }
@@ -23,7 +22,7 @@
       <table mat-table [dataSource]="clientes()" class="tabela">
         <ng-container matColumnDef="nome">
           <th mat-header-cell *matHeaderCellDef>Nome</th>
-          <td mat-cell *matCellDef="let c">{{ c.nome }}</td>
+          <td mat-cell *matCellDef="let c" class="gs-forte">{{ c.nome }}</td>
         </ng-container>
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef class="esconder-sm">E-mail</th>
@@ -38,18 +37,12 @@
           <td mat-cell *matCellDef="let c" class="esconder-md">{{ c.telefone | telefone }}</td>
         </ng-container>
         <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef class="celula-acoes">Ações</th>
+          <th mat-header-cell *matHeaderCellDef class="celula-acoes"><span class="cdk-visually-hidden">Ações</span></th>
           <td mat-cell *matCellDef="let c" class="celula-acoes">
-            <a mat-icon-button routerLink="/pedidos" [queryParams]="{ clienteId: c.id }"
-               [attr.aria-label]="'Ver pedidos de ' + c.nome" matTooltip="Pedidos">
-              <mat-icon>receipt_long</mat-icon>
-            </a>
-            <a mat-icon-button [routerLink]="['edit', c.id]" [attr.aria-label]="'Editar ' + c.nome" matTooltip="Editar">
-              <mat-icon>edit</mat-icon>
-            </a>
-            <button mat-icon-button (click)="excluir(c)" [attr.aria-label]="'Excluir ' + c.nome" matTooltip="Excluir">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <a mat-button class="gs-acao" routerLink="/pedidos" [queryParams]="{ clienteId: c.id }"
+               [attr.aria-label]="'Ver pedidos de ' + c.nome">Pedidos</a>
+            <a mat-button class="gs-acao" [routerLink]="['edit', c.id]" [attr.aria-label]="'Editar ' + c.nome">Editar</a>
+            <button mat-button class="gs-acao gs-perigo" (click)="excluir(c)" [attr.aria-label]="'Excluir ' + c.nome">Excluir</button>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="colunas"></tr>

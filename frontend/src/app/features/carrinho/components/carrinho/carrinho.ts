@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
@@ -8,10 +8,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDividerModule } from '@angular/material/divider';
 import { finalize } from 'rxjs';
 import { CarrinhoService } from '../../services/carrinho.service';
+import { CarrinhoPainelService } from '../../services/carrinho-painel.service';
 import { ItemCarrinho } from '../../models/item-carrinho';
 import { ClienteService } from '../../../clientes/services/cliente.service';
 import { Cliente } from '../../../clientes/models/cliente';
@@ -22,18 +21,19 @@ import { NotificacaoService } from '../../../../shared/services/notificacao.serv
 import { ConfirmacaoService } from '../../../../shared/services/confirmacao.service';
 import { EstadoVazio } from '../../../../shared/components/estado-vazio';
 
-/** RF04 (carrinho) e RF05 (finalizar pedido vinculado a um cliente). */
+/** RF04 (carrinho) e RF05 (finalizar pedido vinculado a um cliente). Exibido no painel lateral (app.html). */
 @Component({
   selector: 'app-carrinho',
   imports: [
     ReactiveFormsModule, RouterLink, CurrencyPipe, MatButtonModule, MatIconModule, MatFormFieldModule,
-    MatInputModule, MatSelectModule, MatProgressBarModule, MatTooltipModule, MatDividerModule, EstadoVazio,
+    MatInputModule, MatSelectModule, MatProgressBarModule, EstadoVazio,
   ],
   templateUrl: './carrinho.html',
   styleUrl: './carrinho.scss',
 })
-export class Carrinho implements OnInit {
+export class Carrinho {
   readonly carrinho = inject(CarrinhoService);
+  readonly painel = inject(CarrinhoPainelService);
   private readonly clienteService = inject(ClienteService);
   private readonly cupomService = inject(CupomService);
   private readonly pedidoService = inject(PedidoService);
@@ -58,7 +58,14 @@ export class Carrinho implements OnInit {
   });
   readonly totalFinal = computed(() => this.carrinho.total() - this.desconto());
 
-  ngOnInit(): void {
+  constructor() {
+    // Recarrega os clientes sempre que o painel abre (pode ter havido cadastro novo)
+    effect(() => {
+      if (this.painel.aberto()) this.carregarClientes();
+    });
+  }
+
+  private carregarClientes(): void {
     this.clienteService.listarTodos().subscribe({
       next: (p) => this.clientes.set(p.conteudo),
       error: (e) => this.notificacao.erro(e, 'Erro ao carregar clientes.'),
@@ -127,6 +134,7 @@ export class Carrinho implements OnInit {
           .subscribe({
             next: (pedido) => {
               this.carrinho.limpar();
+              this.painel.fechar();
               this.notificacao.sucesso(`Pedido #${pedido.id} realizado com sucesso!`);
               this.router.navigate(['/pedidos', pedido.id]);
             },

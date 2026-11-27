@@ -1,73 +1,71 @@
 <section class="pagina">
-  <div class="cabecalho-pagina"><h1>Catálogo</h1></div>
+  <div class="cabecalho-pagina topo">
+    <h1 class="titulo">Catálogo <span class="gs-contagem">{{ total() }} {{ total() === 1 ? 'produto' : 'produtos' }}</span></h1>
+  </div>
 
-  <form class="filtros" [formGroup]="filtros" role="search">
-    <mat-form-field>
-      <mat-label>Buscar produto</mat-label>
-      <input matInput formControlName="nome" placeholder="Ex.: fone" />
-      <mat-icon matSuffix aria-hidden="true">search</mat-icon>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Categoria</mat-label>
-      <mat-select formControlName="categoriaId">
-        <mat-option [value]="null">Todas</mat-option>
-        @for (c of categorias(); track c.id) {
-          <mat-option [value]="c.id">{{ c.nome }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Ordenar por</mat-label>
-      <mat-select formControlName="sort">
-        <mat-option value="nome,asc">Nome (A-Z)</mat-option>
-        <mat-option value="preco,asc">Menor preço</mat-option>
-        <mat-option value="preco,desc">Maior preço</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <form class="barra-filtros" [formGroup]="filtros" role="search" (submit)="$event.preventDefault()">
+    <label class="gs-busca busca">
+      <mat-icon aria-hidden="true">search</mat-icon>
+      <input formControlName="nome" placeholder="Buscar produto" aria-label="Buscar produto" />
+    </label>
+    <div class="gs-campo ordenar">
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-select formControlName="sort" aria-label="Ordenar por">
+          <mat-option value="nome,asc">Nome (A-Z)</mat-option>
+          <mat-option value="preco,asc">Menor preço</mat-option>
+          <mat-option value="preco,desc">Maior preço</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </form>
+
+  <nav class="gs-abas abas" aria-label="Filtrar por categoria">
+    <button type="button" [attr.aria-pressed]="filtros.controls.categoriaId.value === null" (click)="filtrarCategoria(null)">Todas</button>
+    @for (c of categorias(); track c.id) {
+      <button type="button" [attr.aria-pressed]="filtros.controls.categoriaId.value === c.id" (click)="filtrarCategoria(c.id)">{{ c.nome }}</button>
+    }
+  </nav>
 
   @if (carregando()) {
     <mat-progress-bar mode="indeterminate" aria-label="Carregando produtos" />
   }
 
   @if (!carregando() && produtos().length === 0) {
-    <div class="cartao"><app-estado-vazio mensagem="Nenhum produto encontrado." icone="search_off" /></div>
+    <app-estado-vazio mensagem="Nenhum produto encontrado." icone="search_off" />
   } @else {
-    <div class="grade">
+    <ul class="grade">
       @for (p of produtos(); track p.id) {
-        <mat-card appearance="outlined" class="card-produto">
+        <li class="card-produto">
           <a [routerLink]="[p.id]" class="link-imagem" [attr.aria-label]="'Ver detalhes de ' + p.nome">
-            <img mat-card-image [src]="p.imagemUrl || 'https://picsum.photos/seed/vazio/400/300'" [alt]="p.nome" loading="lazy" />
-          </a>
-          <mat-card-content>
-            <span class="texto-secundario categoria">{{ p.categoriaNome }}</span>
-            <h2 class="nome">{{ p.nome }}</h2>
-            <span class="preco">{{ p.preco | currency }}</span>
+            <img class="gs-imagem" [src]="p.imagemUrl || 'https://picsum.photos/seed/vazio/400/400'" [alt]="p.nome" loading="lazy" />
             @if (p.estoque === 0) {
-              <p class="alerta-estoque">Esgotado</p>
+              <span class="gs-tag gs-tag-alerta">Esgotado</span>
             } @else if (p.estoque <= 3) {
-              <p class="alerta-estoque">Últimas {{ p.estoque }} unidade(s)</p>
+              <span class="gs-tag gs-tag-alerta">Últimas {{ p.estoque }}</span>
             } @else {
-              <p class="texto-secundario">{{ p.estoque }} em estoque</p>
+              <span class="gs-tag">{{ p.categoriaNome }}</span>
             }
-          </mat-card-content>
-          <mat-card-actions>
-            <a mat-button [routerLink]="[p.id]">Detalhes</a>
-            <button mat-flat-button (click)="adicionar(p)" [disabled]="p.estoque === 0">
-              <mat-icon aria-hidden="true">add_shopping_cart</mat-icon> Adicionar
-            </button>
-          </mat-card-actions>
-        </mat-card>
+          </a>
+          <div class="info">
+            <a [routerLink]="[p.id]" class="nome">{{ p.nome }}</a>
+            <span class="preco">{{ p.preco | currency }}</span>
+          </div>
+          <button mat-stroked-button class="gs-secundario gs-largura" (click)="adicionar(p)" [disabled]="p.estoque === 0">
+            {{ p.estoque === 0 ? 'Esgotado' : 'Adicionar ao carrinho' }}
+          </button>
+        </li>
       }
-    </div>
+    </ul>
   }
 
-  <mat-paginator
-    [length]="total()"
-    [pageIndex]="pagina"
-    [pageSize]="tamanho"
-    [pageSizeOptions]="[6, 12, 24]"
-    (page)="mudarPagina($event)"
-    aria-label="Paginação do catálogo"
-  />
+  @if (totalPaginas() > 1) {
+    <nav class="gs-paginacao" aria-label="Paginação do catálogo">
+      <button type="button" (click)="irPara(pagina - 1)" [disabled]="pagina === 0" aria-label="Página anterior">←</button>
+      @for (n of paginas(); track n) {
+        <button type="button" [class.ativa]="n === pagina" (click)="irPara(n)"
+                [attr.aria-current]="n === pagina ? 'page' : null" [attr.aria-label]="'Página ' + (n + 1)">{{ n + 1 }}</button>
+      }
+      <button type="button" (click)="irPara(pagina + 1)" [disabled]="pagina >= totalPaginas() - 1" aria-label="Próxima página">→</button>
+    </nav>
+  }
 </section>

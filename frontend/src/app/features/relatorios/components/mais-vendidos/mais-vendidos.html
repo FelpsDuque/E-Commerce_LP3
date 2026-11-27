@@ -1,60 +1,50 @@
 <section class="pagina">
-  <div class="cabecalho-pagina"><h1>Produtos mais vendidos</h1></div>
+  <div class="cabecalho-pagina">
+    <h1>Mais vendidos</h1>
 
-  <form class="filtros" [formGroup]="form" (ngSubmit)="gerar()">
-    <mat-form-field>
-      <mat-label>Período</mat-label>
-      <mat-date-range-input [rangePicker]="periodo">
-        <input matStartDate formControlName="inicio" placeholder="Início" aria-label="Data inicial" />
-        <input matEndDate formControlName="fim" placeholder="Fim" aria-label="Data final" />
-      </mat-date-range-input>
-      <mat-datepicker-toggle matIconSuffix [for]="periodo" aria-label="Abrir calendário" />
-      <mat-date-range-picker #periodo />
-      @if (form.invalid) { <mat-error>Informe o período.</mat-error> }
-    </mat-form-field>
-    <button mat-flat-button type="submit" [disabled]="form.invalid || carregando()" class="botao-gerar">
-      <mat-icon aria-hidden="true">refresh</mat-icon> Gerar
-    </button>
-  </form>
-
-  <div class="cartao">
-    @if (carregando()) {
-      <mat-progress-bar mode="indeterminate" aria-label="Gerando relatório" />
-    }
-    @if (!carregando() && linhas().length === 0) {
-      <app-estado-vazio mensagem="Nenhuma venda no período selecionado." icone="bar_chart" />
-    } @else {
-      <p class="texto-secundario">Receita dos produtos listados: <strong>{{ receitaTotal() | currency }}</strong></p>
-      <table mat-table [dataSource]="linhas()" class="tabela">
-        <ng-container matColumnDef="posicao">
-          <th mat-header-cell *matHeaderCellDef>#</th>
-          <td mat-cell *matCellDef="let l; let i = index">{{ i + 1 }}</td>
-        </ng-container>
-        <ng-container matColumnDef="produto">
-          <th mat-header-cell *matHeaderCellDef>Produto</th>
-          <td mat-cell *matCellDef="let l">{{ l.produtoNome }}</td>
-        </ng-container>
-        <ng-container matColumnDef="categoria">
-          <th mat-header-cell *matHeaderCellDef class="esconder-md">Categoria</th>
-          <td mat-cell *matCellDef="let l" class="esconder-md">{{ l.categoriaNome }}</td>
-        </ng-container>
-        <ng-container matColumnDef="quantidade">
-          <th mat-header-cell *matHeaderCellDef>Qtd</th>
-          <td mat-cell *matCellDef="let l">{{ l.quantidadeVendida }}</td>
-        </ng-container>
-        <ng-container matColumnDef="barra">
-          <th mat-header-cell *matHeaderCellDef class="esconder-sm"><span class="cdk-visually-hidden">Gráfico</span></th>
-          <td mat-cell *matCellDef="let l" class="esconder-sm" aria-hidden="true">
-            <div class="barra-fundo"><div class="barra-valor" [style.width.%]="(l.quantidadeVendida / maior()) * 100"></div></div>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="receita">
-          <th mat-header-cell *matHeaderCellDef>Receita</th>
-          <td mat-cell *matCellDef="let l">{{ l.receita | currency }}</td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
-        <tr mat-row *matRowDef="let row; columns: colunas"></tr>
-      </table>
-    }
+    <form class="filtros filtros-topo" [formGroup]="form" (ngSubmit)="gerar()">
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-date-range-input [rangePicker]="periodo" aria-label="Período">
+          <input matStartDate formControlName="inicio" placeholder="Início" aria-label="Data inicial" />
+          <input matEndDate formControlName="fim" placeholder="Fim" aria-label="Data final" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="periodo" aria-label="Abrir calendário" />
+        <mat-date-range-picker #periodo />
+        @if (form.invalid) { <mat-error>Informe o período.</mat-error> }
+      </mat-form-field>
+      <button mat-flat-button type="submit" class="gs-primario" [disabled]="form.invalid || carregando()">Gerar</button>
+    </form>
   </div>
+
+  @if (carregando()) {
+    <mat-progress-bar mode="indeterminate" aria-label="Gerando relatório" />
+  }
+  @if (!carregando() && linhas().length === 0) {
+    <app-estado-vazio mensagem="Nenhuma venda no período selecionado." icone="bar_chart" />
+  } @else {
+    <p class="texto-secundario receita">Receita dos produtos listados: <strong class="valor">{{ receitaTotal() | currency }}</strong></p>
+
+    <ol class="ranking" aria-label="Ranking de produtos mais vendidos">
+      @for (l of linhas(); track l.produtoId; let i = $index) {
+        <li>
+          <span class="posicao">{{ (i + 1).toString().padStart(2, '0') }}</span>
+          <div class="corpo">
+            <div class="linha">
+              <span class="nome">
+                <span class="gs-sobretitulo">{{ l.categoriaNome }}</span>
+                <a [routerLink]="['/catalogo', l.produtoId]">{{ l.produtoNome }}</a>
+              </span>
+              <span class="numeros">
+                <strong>{{ l.quantidadeVendida }} un.</strong>
+                <span class="texto-secundario">{{ l.receita | currency }}</span>
+              </span>
+            </div>
+            <div class="barra-fundo" aria-hidden="true">
+              <div class="barra-valor" [style.width.%]="(l.quantidadeVendida / maior()) * 100"></div>
+            </div>
+          </div>
+        </li>
+      }
+    </ol>
+  }
 </section>

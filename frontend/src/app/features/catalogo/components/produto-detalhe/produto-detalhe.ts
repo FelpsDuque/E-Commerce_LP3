@@ -8,7 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatDividerModule } from '@angular/material/divider';
 import { finalize } from 'rxjs';
 import { ProdutoService } from '../../../produtos/services/produto.service';
 import { Produto } from '../../../produtos/models/produto';
@@ -25,7 +24,7 @@ import { EstadoVazio } from '../../../../shared/components/estado-vazio';
   selector: 'app-produto-detalhe',
   imports: [
     ReactiveFormsModule, RouterLink, CurrencyPipe, DatePipe, DecimalPipe, MatButtonModule, MatIconModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatProgressBarModule, MatDividerModule, EstadoVazio,
+    MatFormFieldModule, MatInputModule, MatSelectModule, MatProgressBarModule, EstadoVazio,
   ],
   templateUrl: './produto-detalhe.html',
   styleUrl: './produto-detalhe.scss',
@@ -85,6 +84,13 @@ export class ProdutoDetalhe implements OnInit {
     } else {
       this.notificacao.erro(null, `Estoque insuficiente: disponível ${p.estoque} (considerando o que já está no carrinho).`);
     }
+  }
+
+  mudarQuantidade(delta: number): void {
+    const p = this.produto();
+    const nova = (Number(this.quantidade.value) || 0) + delta;
+    if (!p || nova < 1 || nova > p.estoque) return;
+    this.quantidade.setValue(nova);
   }
 
   avaliar(): void {

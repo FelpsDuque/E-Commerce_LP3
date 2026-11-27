@@ -1,4 +1,4 @@
 import { Routes } from '@angular/router';
-import { Carrinho } from './components/carrinho/carrinho';
+import { CarrinhoRota } from './components/carrinho-rota';
 
-export const CARRINHO_ROUTES: Routes = [{ path: '', component: Carrinho, title: 'Carrinho | Loja' }];
+export const CARRINHO_ROUTES: Routes = [{ path: '', component: CarrinhoRota, title: 'Carrinho | GarboShop' }];

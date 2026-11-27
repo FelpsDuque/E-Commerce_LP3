@@ -1,54 +1,47 @@
-import { Component, computed, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { Component, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { filter, map } from 'rxjs';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatBadgeModule } from '@angular/material/badge';
 import { CarrinhoService } from './features/carrinho/services/carrinho.service';
+import { CarrinhoPainelService } from './features/carrinho/services/carrinho-painel.service';
+import { Carrinho } from './features/carrinho/components/carrinho/carrinho';
 
 interface ItemMenu {
   rota: string;
   rotulo: string;
-  icone: string;
 }
 
-/** Layout principal: barra superior + menu lateral persistente (desktop) ou recolhível (celular). */
+const ROTAS_GESTAO = ['/pedidos', '/produtos', '/categorias', '/clientes', '/cupons', '/relatorios'];
+
+/** Layout principal: cabeçalho único (loja + gestão) e carrinho em painel lateral à direita. */
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterOutlet, RouterLink, RouterLinkActive,
-    MatToolbarModule, MatSidenavModule, MatListModule, MatIconModule, MatButtonModule, MatBadgeModule,
-  ],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatSidenavModule, MatButtonModule, Carrinho],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  private readonly carrinho = inject(CarrinhoService);
-  readonly qtdCarrinho = this.carrinho.quantidadeTotal;
+  private readonly router = inject(Router);
+  readonly painel = inject(CarrinhoPainelService);
+  readonly qtdCarrinho = inject(CarrinhoService).quantidadeTotal;
 
-  readonly celular = toSignal(
-    inject(BreakpointObserver).observe('(max-width: 959px)').pipe(map((r) => r.matches)),
+  /** A segunda linha do cabeçalho (abas de gestão) aparece só nas rotas de gestão. */
+  readonly emGestao = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map((e) => ROTAS_GESTAO.some((r) => e.urlAfterRedirects.startsWith(r))),
+    ),
     { initialValue: false },
   );
-  readonly modoMenu = computed(() => (this.celular() ? 'over' : 'side'));
-
-  readonly loja: ItemMenu[] = [
-    { rota: '/', rotulo: 'Início', icone: 'home' },
-    { rota: '/catalogo', rotulo: 'Catálogo', icone: 'storefront' },
-    { rota: '/carrinho', rotulo: 'Carrinho', icone: 'shopping_cart' },
-  ];
 
   readonly gestao: ItemMenu[] = [
-    { rota: '/produtos', rotulo: 'Produtos', icone: 'inventory_2' },
-    { rota: '/categorias', rotulo: 'Categorias', icone: 'category' },
-    { rota: '/clientes', rotulo: 'Clientes', icone: 'people' },
-    { rota: '/pedidos', rotulo: 'Pedidos', icone: 'receipt_long' },
-    { rota: '/cupons', rotulo: 'Cupons', icone: 'local_offer' },
-    { rota: '/relatorios/mais-vendidos', rotulo: 'Mais vendidos', icone: 'bar_chart' },
+    { rota: '/pedidos', rotulo: 'Pedidos' },
+    { rota: '/produtos', rotulo: 'Produtos' },
+    { rota: '/categorias', rotulo: 'Categorias' },
+    { rota: '/clientes', rotulo: 'Clientes' },
+    { rota: '/cupons', rotulo: 'Cupons' },
+    { rota: '/relatorios/mais-vendidos', rotulo: 'Mais vendidos' },
   ];
 }

@@ -1,33 +1,38 @@
-<section class="pagina">
+<section class="pagina pagina-form">
+  <a routerLink="/categorias" class="voltar">← Categorias</a>
   <div class="cabecalho-pagina">
     <h1>{{ id() ? 'Editar categoria' : 'Nova categoria' }}</h1>
   </div>
 
-  <div class="cartao">
+  <div>
     @if (carregando() || salvando()) {
       <mat-progress-bar mode="indeterminate" aria-label="Processando" />
     }
 
     <form [formGroup]="form" (ngSubmit)="salvar()" class="form-grid">
-      <mat-form-field>
-        <mat-label>Nome</mat-label>
-        <input matInput formControlName="nome" maxlength="60" required />
-        @if (form.controls.nome.hasError('required')) {
-          <mat-error>O nome é obrigatório.</mat-error>
-        } @else if (form.controls.nome.hasError('minlength')) {
-          <mat-error>Mínimo de 2 caracteres.</mat-error>
-        }
-      </mat-form-field>
+      <div class="gs-campo">
+        <label class="gs-rotulo" for="categoria-nome">Nome</label>
+        <mat-form-field subscriptSizing="dynamic">
+          <input id="categoria-nome" matInput formControlName="nome" maxlength="60" required />
+          @if (form.controls.nome.hasError('required')) {
+            <mat-error>O nome é obrigatório.</mat-error>
+          } @else if (form.controls.nome.hasError('minlength')) {
+            <mat-error>Mínimo de 2 caracteres.</mat-error>
+          }
+        </mat-form-field>
+      </div>
 
-      <mat-form-field class="largura-total">
-        <mat-label>Descrição</mat-label>
-        <textarea matInput formControlName="descricao" rows="3" maxlength="255"></textarea>
-        <mat-hint align="end">{{ form.controls.descricao.value.length }}/255</mat-hint>
-      </mat-form-field>
+      <div class="gs-campo largura-total">
+        <label class="gs-rotulo" for="categoria-descricao">Descrição</label>
+        <mat-form-field subscriptSizing="dynamic">
+          <textarea id="categoria-descricao" matInput formControlName="descricao" rows="3" maxlength="255"></textarea>
+          <mat-hint align="end">{{ form.controls.descricao.value.length }}/255</mat-hint>
+        </mat-form-field>
+      </div>
 
       <div class="acoes-form largura-total">
-        <a mat-button routerLink="/categorias">Cancelar</a>
-        <button mat-flat-button type="submit" [disabled]="form.invalid || salvando()">Salvar</button>
+        <button mat-flat-button class="gs-primario" type="submit" [disabled]="form.invalid || salvando()">Salvar</button>
+        <a mat-stroked-button class="gs-secundario" routerLink="/categorias">Cancelar</a>
       </div>
     </form>
   </div>

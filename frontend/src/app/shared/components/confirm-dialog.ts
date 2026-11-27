@@ -19,9 +19,10 @@ export interface ConfirmDialogData {
       <p>{{ data.mensagem }}</p>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button [mat-dialog-close]="false">Voltar</button>
+      <button mat-stroked-button class="gs-secundario" [mat-dialog-close]="false">Voltar</button>
       <button
         mat-flat-button
+        class="gs-primario"
         [class.botao-perigo]="data.perigo"
         [mat-dialog-close]="true"
         cdkFocusInitial

@@ -1,15 +1,13 @@
-import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
 import { ProdutoService } from '../../../produtos/services/produto.service';
@@ -24,13 +22,16 @@ import { EstadoVazio } from '../../../../shared/components/estado-vazio';
 @Component({
   selector: 'app-catalogo',
   imports: [
-    ReactiveFormsModule, RouterLink, CurrencyPipe, MatCardModule, MatFormFieldModule, MatInputModule,
-    MatSelectModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatProgressBarModule, EstadoVazio,
+    ReactiveFormsModule, RouterLink, CurrencyPipe, MatFormFieldModule, MatInputModule,
+    MatSelectModule, MatButtonModule, MatIconModule, MatProgressBarModule, EstadoVazio,
   ],
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.scss',
 })
 export class Catalogo implements OnInit {
+  /** Query param opcional: /catalogo?categoriaId=1 (links da página inicial). */
+  readonly categoriaId = input<string>();
+
   private readonly produtoService = inject(ProdutoService);
   private readonly categoriaService = inject(CategoriaService);
   private readonly carrinho = inject(CarrinhoService);
@@ -42,7 +43,10 @@ export class Catalogo implements OnInit {
   readonly total = signal(0);
   readonly carregando = signal(false);
   pagina = 0;
-  tamanho = 12;
+  readonly tamanho = 12;
+
+  readonly totalPaginas = computed(() => Math.ceil(this.total() / this.tamanho));
+  readonly paginas = computed(() => Array.from({ length: this.totalPaginas() }, (_, i) => i));
 
   readonly filtros = inject(FormBuilder).nonNullable.group({
     nome: '',
@@ -51,6 +55,8 @@ export class Catalogo implements OnInit {
   });
 
   ngOnInit(): void {
+    const id = this.categoriaId();
+    if (id) this.filtros.patchValue({ categoriaId: +id }, { emitEvent: false });
     this.categoriaService.listar().subscribe((c) => this.categorias.set(c));
     this.filtros.valueChanges
       .pipe(
@@ -80,10 +86,15 @@ export class Catalogo implements OnInit {
       });
   }
 
-  mudarPagina(e: PageEvent): void {
-    this.pagina = e.pageIndex;
-    this.tamanho = e.pageSize;
+  filtrarCategoria(id: number | null): void {
+    this.filtros.controls.categoriaId.setValue(id);
+  }
+
+  irPara(pagina: number): void {
+    if (pagina < 0 || pagina >= this.totalPaginas() || pagina === this.pagina) return;
+    this.pagina = pagina;
     this.carregar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   adicionar(p: Produto): void {

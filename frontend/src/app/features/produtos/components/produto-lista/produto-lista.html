@@ -1,35 +1,32 @@
 <section class="pagina">
   <div class="cabecalho-pagina">
-    <h1>Produtos</h1>
-    <a mat-flat-button routerLink="novo"><mat-icon aria-hidden="true">add</mat-icon> Novo produto</a>
+    <h1>Produtos <span class="gs-contagem">{{ total() }}</span></h1>
+    <a mat-flat-button class="gs-primario" routerLink="novo">Novo produto</a>
   </div>
 
-  <form class="filtros" [formGroup]="filtros" role="search">
-    <mat-form-field>
-      <mat-label>Buscar por nome</mat-label>
-      <input matInput formControlName="nome" />
-      <mat-icon matSuffix aria-hidden="true">search</mat-icon>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Categoria</mat-label>
-      <mat-select formControlName="categoriaId">
-        <mat-option [value]="null">Todas</mat-option>
+  <form class="filtros barra-gestao" [formGroup]="filtros" role="search">
+    <label class="gs-busca busca-gestao">
+      <mat-icon aria-hidden="true">search</mat-icon>
+      <input formControlName="nome" placeholder="Buscar por nome" aria-label="Buscar por nome" />
+    </label>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-select formControlName="categoriaId" aria-label="Categoria" placeholder="Todas as categorias">
+        <mat-option [value]="null">Todas as categorias</mat-option>
         @for (c of categorias(); track c.id) {
           <mat-option [value]="c.id">{{ c.nome }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>Situação</mat-label>
-      <mat-select formControlName="ativo">
-        <mat-option [value]="null">Todos</mat-option>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-select formControlName="ativo" aria-label="Situação" placeholder="Todas as situações">
+        <mat-option [value]="null">Todas as situações</mat-option>
         <mat-option [value]="true">Ativos</mat-option>
         <mat-option [value]="false">Inativos</mat-option>
       </mat-select>
     </mat-form-field>
   </form>
 
-  <div class="cartao">
+  <div>
     @if (carregando()) {
       <mat-progress-bar mode="indeterminate" aria-label="Carregando produtos" />
     }
@@ -42,13 +39,13 @@
           <th mat-header-cell *matHeaderCellDef class="esconder-sm"><span class="cdk-visually-hidden">Imagem</span></th>
           <td mat-cell *matCellDef="let p" class="esconder-sm">
             @if (p.imagemUrl) {
-              <img class="miniatura" [src]="p.imagemUrl" [alt]="p.nome" loading="lazy" />
+              <img class="miniatura gs-imagem" [src]="p.imagemUrl" [alt]="p.nome" loading="lazy" />
             }
           </td>
         </ng-container>
         <ng-container matColumnDef="nome">
           <th mat-header-cell *matHeaderCellDef>Nome</th>
-          <td mat-cell *matCellDef="let p">{{ p.nome }}</td>
+          <td mat-cell *matCellDef="let p" class="gs-forte">{{ p.nome }}</td>
         </ng-container>
         <ng-container matColumnDef="categoria">
           <th mat-header-cell *matHeaderCellDef class="esconder-md">Categoria</th>
@@ -64,18 +61,14 @@
         </ng-container>
         <ng-container matColumnDef="ativo">
           <th mat-header-cell *matHeaderCellDef class="esconder-sm">Situação</th>
-          <td mat-cell *matCellDef="let p" class="esconder-sm">{{ p.ativo ? 'Ativo' : 'Inativo' }}</td>
+          <td mat-cell *matCellDef="let p" class="esconder-sm"><span class="gs-status" [style.--cor-status]="p.ativo ? 'var(--gs-sucesso)' : 'var(--gs-desativado)'">{{ p.ativo ? 'Ativo' : 'Inativo' }}</span></td>
         </ng-container>
         <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef class="celula-acoes">Ações</th>
+          <th mat-header-cell *matHeaderCellDef class="celula-acoes"><span class="cdk-visually-hidden">Ações</span></th>
           <td mat-cell *matCellDef="let p" class="celula-acoes">
-            <a mat-icon-button [routerLink]="['edit', p.id]" [attr.aria-label]="'Editar ' + p.nome" matTooltip="Editar">
-              <mat-icon>edit</mat-icon>
-            </a>
-            <button mat-icon-button (click)="excluir(p)" [disabled]="!p.ativo"
-                    [attr.aria-label]="'Excluir ' + p.nome" matTooltip="Excluir / inativar">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <a mat-button class="gs-acao" [routerLink]="['edit', p.id]" [attr.aria-label]="'Editar ' + p.nome">Editar</a>
+            <button mat-button class="gs-acao gs-perigo" (click)="excluir(p)" [disabled]="!p.ativo"
+                    [attr.aria-label]="'Excluir ' + p.nome" matTooltip="Excluir / inativar">Excluir</button>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="colunas"></tr>

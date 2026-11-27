@@ -30,7 +30,7 @@ import { EstadoVazio } from '../../../../shared/components/estado-vazio';
   ],
   templateUrl: './produto-lista.html',
   styles: `
-    .miniatura { width: 48px; height: 36px; object-fit: cover; border-radius: 4px; display: block; }
+    .miniatura { width: 48px; height: 48px; }
     .inativo { opacity: .55; }
   `,
 })
